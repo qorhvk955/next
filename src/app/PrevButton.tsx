@@ -1,7 +1,6 @@
 "use client";
 
 import dayjs from "dayjs";
-import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 type Props = {
@@ -10,8 +9,6 @@ type Props = {
 
 const PrevButton = ({ targetDt }: Props) => {
   const router = useRouter();
-
-  const searchParams = useSearchParams;
 
   return (
     <button

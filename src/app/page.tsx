@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import PrevButton from "../app/PrevButton";
+import Link from "next/link"; // Link 컴포넌트 임포트
 
 type Props = {
   searchParams: {
@@ -26,36 +27,41 @@ export default async function Home({
 
   console.log(JSON.stringify(json, null, 2));
 
-  return [
-    <div className="w-[500px] mx-auto">
-      <div className="flex justify-between">
-        <PrevButton targetDt={targetDt} />
-        {dayjs(targetDt).format("YYYY년MM월DD일")}
-        <button>다음</button>
-      </div>
+  return (
+    <>
+      {" "}
+      <div className="w-[500px] mx-auto">
+        <div className="flex justify-between">
+          <PrevButton targetDt={targetDt} />
+          {dayjs(targetDt).format("YYYY년MM월DD일")}
+          <button>다음</button>
+        </div>
 
-      <ol className="divide-y *:py-4 mt-4">
-        {json.boxOfficeResult.dailyBoxOfficeList.map((item: ItemType) => (
-          <li key={item.rank}>
-            {item.rank}위 - {item.movieNm}
-            {item.rankOldAndNew === "NEW" && (
-              <span className="text-xs text-red-500">N</span>
-            )}
-          </li>
-        ))}
-      </ol>
-      <pre>{/* <code>{JSON.stringify(json, null, 2)}</code> */}</pre>
-    </div>,
-  ];
+        <ol className="divide-y *:py-4 mt-4">
+          {json.boxOfficeResult.dailyBoxOfficeList.map((item: ItemType) => (
+            <li key={item.rank}>
+              {item.rank}위 -
+              <Link href={`movie/${item.movieCd}`}>{item.movieNm}</Link>
+              {item.rankOldAndNew === "NEW" && (
+                <span className="text-xs text-red-500">N</span>
+              )}
+            </li>
+          ))}
+        </ol>
+        <pre>{/* <code>{JSON.stringify(json, null, 2)}</code> */}</pre>
+      </div>
+      ,
+    </>
+  );
 }
 
-type ResponseType = {
-  boxOfficeResult: {
-    boxofficeType: string;
-    showRange: string;
-    dailyBoxOfficeList: ItemType[];
-  };
-};
+// type ResponseType = {
+//   boxOfficeResult: {
+//     boxofficeType: string;
+//     showRange: string;
+//     dailyBoxOfficeList: ItemType[];
+//   };
+// };
 
 type ItemType = {
   rnum: string;
